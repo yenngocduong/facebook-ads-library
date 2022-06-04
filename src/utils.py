@@ -17,13 +17,16 @@ contains the following utility functions:
 import yaml, os, requests, urllib.request, re, pickle, numpy as np
 from bs4 import BeautifulSoup as soup
 import matplotlib.pyplot as plt
+import cv2
+import requests, time, cv2, numpy as np
+from PIL import Image
 
 FIELDS = ['id','ad_creation_time','ad_delivery_start_time','ad_delivery_stop_time',
           'ad_snapshot_url','ad_creative_bodies','ad_creative_link_captions','ad_creative_link_titles','ad_creative_link_descriptions',
           'languages',
           'page_id','page_name','bylines','currency','spend','impressions','estimated_audience_size','publisher_platforms',
           'demographic_distribution','delivery_by_region']
-ACCESS_TOKEN = 'EAAEau61SMogBAKXf5ZCiYZC2WkmfCAkZCEz1cQoZBTgg4AdxRAAmG5ZAcH8hrSEsXPDZBPFodOdKr7s49i4ZBecZAZBnnV86z5HMCZAaYp1s2WoUj5P5PzYXTX6Gao2awkZBBudMZBubxwlG3UeRUZBCsBTb5GCeHbAsJFdf0Bal6Rpou4ORNt56cpVpK'
+ACCESS_TOKEN = 'EAAEau61SMogBAGQbTuotGoDcjBfsiRPLzvJYWNVG58idq5jcf4OrFNlwf08aIHtpfTnMLYF6bP7GEjiUkrDRx7fLcvFfdB35zjFfQj84wshfHoNNiuh2ifhpyM4PZAsFzgGywzo6eZCMzk64l353LcykGEkbF8asO9BDSLZBrGL3gvQvtZAE'
 
 
 def facebook_credentials(path=''):
@@ -210,18 +213,20 @@ def obtain_ads_page_id(page_id, country, fields=FIELDS, access_token=ACCESS_TOKE
     return ads
 
 
-def get_text_area(source):
-    image = cv2.imread(f'{raw_dir}/{source}.png')
-    print(plt.imshow(image))
-    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-    print(plt.imshow(gray))
+
+
+def text_coverage(filepath):
+    
+    # Find % coverage of text in an image: https://stackoverflow.com/questions/58876353/how-to-check-percentage-of-an-image-covered-by-text
+    # image = Image.open(requests.get(image_url, stream=True).raw)
+    image = Image.open(filepath)
+    img_arr = np.array(image)
+    gray = cv2.cvtColor(img_arr, cv2.COLOR_BGR2GRAY)
     thresh = cv2.adaptiveThreshold(gray,255,cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY_INV,11,3)
-    print(plt.imshow(thresh))
+
     mask = thresh.copy()
     mask = cv2.merge([mask,mask,mask])
-    print(plt.imshow(mask))
-    
-    picture_threshold = image.shape[0] * image.shape[1] * .01
+    picture_threshold = img_arr.shape[0] * img_arr.shape[1] * 0.05
     cnts = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
     cnts = cnts[0] if len(cnts) == 2 else cnts[1]
     for c in cnts:
@@ -233,7 +238,6 @@ def get_text_area(source):
     result = cv2.bitwise_xor(thresh, mask)
 
     text_pixels = cv2.countNonZero(result)
-    percentage = (text_pixels / (image.shape[0] * image.shape[1])) * 100
-    print('Percentage: {:.2f}%'.format(percentage))
-    print(plt.imshow(result))
+    percentage = (text_pixels / (img_arr.shape[0] * img_arr.shape[1])) * 100
+    
     return percentage

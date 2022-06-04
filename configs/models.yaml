@@ -1,0 +1,6 @@
+feature-extraction:
+    text:
+        model-name: sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
+    image:
+        model-name: google/vit-base-patch16-224-in21k
+    

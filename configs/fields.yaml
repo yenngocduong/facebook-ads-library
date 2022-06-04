@@ -1,0 +1,82 @@
+ads_archive:
+
+    fields: # https://developers.facebook.com/docs/marketing-api/reference/archived-ad/#fields
+        - id
+        - ad_creation_time
+        - ad_delivery_stop_time
+        - ad_delivery_start_time
+        - ad_snapshot_url
+        - ad_creative_bodies
+        - ad_creative_link_captions
+        - ad_creative_link_titles
+        - ad_creative_link_descriptions
+        - languages
+        - page_id
+        - page_name
+        - bylines
+        - currency
+        - spend
+        - impressions
+        - estimated_audience_size
+        - publisher_platforms
+        - demographic_distribution
+        - delivery_by_region
+        
+    parameters: # https://developers.facebook.com/docs/graph-api/reference/ads_archive/#parameters
+        ad_active_status: ALL
+        media_type: IMAGE
+        search_type: KEYWORD_UNORDERED
+        ad_reached_countries:
+            - name: 'United States' 
+              country_code: 'US'
+            - name: 'United Kingdom'
+              country_code: 'GB'
+            - name: 'Brazil'
+              country_code: 'BR'
+            - name: 'Canada'
+              country_code: 'CA'
+            - name: 'Australia'
+              country_code: 'AU'
+            - name: 'New Zealand'
+              country_code: 'NZ'
+            - name: 'Singapore'
+              country_code: 'SG'
+            - name: 'Malaysia'
+              country_code: 'MY'
+            - name: 'Indonesia'
+              country_code: 'ID'
+            - name: 'Japan'
+              country_code: 'JP'
+            - name: 'South Korea'
+              country_code: 'KR'
+            - name: 'Belgium'
+              country_code: 'BE'
+            - name: 'Denmark'
+              country_code: 'DK'
+            - name: 'Sweden'
+              country_code: 'SE'
+            - name: 'Norway'
+              country_code: 'NO'
+            - name: 'Netherlands'
+              country_code: 'NL'
+            - name: 'Finland'
+              country_code: 'FI'
+            - name: 'Ireland'
+              country_code: 'IE'
+            - name: 'Hungary'
+              country_code: 'HU'
+            - name: 'Italy'
+              country_code: 'IT'
+            - name: 'Spain'
+              country_code: 'ES'
+            - name: 'Russia'
+              country_code: 'RU'
+            - name: 'Ukraine'
+              country_code: 'UA'
+            - name: 'Luxembourg'
+              country_code: 'LU'
+
+
+
+        
+        

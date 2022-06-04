@@ -8,7 +8,7 @@ from datetime import datetime, timedelta
 
 def process_ads(ads):
     """
-    processes Ads retrieved from Ads Archive (FB Ad Library)
+    processes Ads retrieved from Ads Archive (FB Ad Library). Applied for ads that retrieved through search term
     """
     df = pd.DataFrame(ads)    
     clean = []
@@ -36,7 +36,7 @@ def process_ads(ads):
         
         start = datetime.strptime(m['delivery_start'], '%Y-%m-%d')
         stop = datetime.strptime(m['delivery_stop'], '%Y-%m-%d')
-        m['delivery_period'] = (stop-start).days
+        m['delivery_period'] = (stop-start).days + 1
         
         m['ad_url'] = row['ad_snapshot_url']
         
@@ -108,36 +108,36 @@ def process_ads(ads):
             m['CPM2'] = int(m['spend']) / int(m['impressions']) * 1000
         
         
-        ### get rid of 0 value
+#         ### get rid of 0 value
         
-        if m['max_impressions'] is np.nan or m['min_impressions'] is np.nan: 
-            m['impressions2'] = 0
-            continue
-        else:
-            if int(m['min_impressions']) != 0:
-                print('impressions1')
-                m['impressions2'] = (int(m['max_impressions']) + int(m['min_impressions']))/2
-            else:
-                print('impressions2')
-                m['impressions2'] = m['max_impressions']
+#         if m['max_impressions'] is np.nan or m['min_impressions'] is np.nan: 
+#             m['impressions2'] = 0
+#             continue
+#         else:
+#             if int(m['min_impressions']) != 0:
+#                 print('impressions1')
+#                 m['impressions2'] = (int(m['max_impressions']) + int(m['min_impressions']))/2
+#             else:
+#                 print('impressions2')
+#                 m['impressions2'] = m['max_impressions']
             
-        if m['max_spend'] is np.nan or m['min_spend'] is np.nan: 
-            m['spend2'] = 0
-            continue
-        else:
-            if int(m['min_spend'])!=0:
-                print('spend1')
-                m['spend2'] = (int(m['max_spend']) + int(m['min_spend']))/2
-            else:
-                print('spend2')
-                m['spend2'] = m['max_spend']
+#         if m['max_spend'] is np.nan or m['min_spend'] is np.nan: 
+#             m['spend2'] = 0
+#             continue
+#         else:
+#             if int(m['min_spend'])!=0:
+#                 print('spend1')
+#                 m['spend2'] = (int(m['max_spend']) + int(m['min_spend']))/2
+#             else:
+#                 print('spend2')
+#                 m['spend2'] = m['max_spend']
                
-        #CPM3
-        if m['max_impressions'] is np.nan or m['max_impressions'] == 0:
-            m['CPM3'] = 0
-            continue
-        else:
-            m['CPM3'] = int(m['spend2']) / int(m['impressions2']) * 1000
+#         #CPM3
+#         if m['max_impressions'] is np.nan or m['max_impressions'] == 0:
+#             m['CPM3'] = 0
+#             continue
+#         else:
+#             m['CPM3'] = int(m['spend2']) / int(m['impressions2']) * 1000
                 
         
         
@@ -157,9 +157,9 @@ def process_ads(ads):
     df['max_impressions']=df['max_impressions'].astype('int64')
     
     df['impressions']=df['impressions'].astype('int64')
-    df['impressions2']=df['impressions2'].astype('int64')
+#     df['impressions2']=df['impressions2'].astype('int64')
     df['spend']=df['spend'].astype('int64')
-    df['spend2']=df['spend2'].astype('int64')
+#     df['spend2']=df['spend2'].astype('int64')
 
 
     df['country']=df['country'].astype('category')
@@ -170,7 +170,7 @@ def process_ads(ads):
 
 def process_ads2(ads):
     """
-    processes Ads retrieved from Ads Archive (FB Ad Library)
+    processes Ads retrieved from Ads Archive (FB Ad Library). Applied with ads retrieved through ad id
     """
     df = pd.DataFrame(ads)    
     clean = []
@@ -272,34 +272,34 @@ def process_ads2(ads):
         
         ### get rid of 0 value
         
-        if m['max_impressions'] is np.nan or m['min_impressions'] is np.nan: 
-            m['impressions2'] = 0
-            continue
-        else:
-            if int(m['min_impressions']) != 0:
-                print('impressions1')
-                m['impressions2'] = (int(m['max_impressions']) + int(m['min_impressions']))/2
-            else:
-                print('impressions2')
-                m['impressions2'] = m['max_impressions']
+#         if m['max_impressions'] is np.nan or m['min_impressions'] is np.nan: 
+#             m['impressions2'] = 0
+#             continue
+#         else:
+#             if int(m['min_impressions']) != 0:
+# #                 print('impressions1')
+#                 m['impressions2'] = (int(m['max_impressions']) + int(m['min_impressions']))/2
+#             else:
+# #                 print('impressions2')
+#                 m['impressions2'] = m['max_impressions']
             
-        if m['max_spend'] is np.nan or m['min_spend'] is np.nan: 
-            m['spend2'] = 0
-            continue
-        else:
-            if int(m['min_spend'])!=0:
-                print('spend1')
-                m['spend2'] = (int(m['max_spend']) + int(m['min_spend']))/2
-            else:
-                print('spend2')
-                m['spend2'] = m['max_spend']
+#         if m['max_spend'] is np.nan or m['min_spend'] is np.nan: 
+#             m['spend2'] = 0
+#             continue
+#         else:
+#             if int(m['min_spend'])!=0:
+# #                 print('spend1')
+#                 m['spend2'] = (int(m['max_spend']) + int(m['min_spend']))/2
+#             else:
+# #                 print('spend2')
+#                 m['spend2'] = m['max_spend']
                
-        #CPM3
-        if m['max_impressions'] is np.nan or m['max_impressions'] == 0:
-            m['CPM3'] = 0
-            continue
-        else:
-            m['CPM3'] = int(m['spend2']) / int(m['impressions2']) * 1000
+#         #CPM3
+#         if m['max_impressions'] is np.nan or m['max_impressions'] == 0:
+#             m['CPM3'] = 0
+#             continue
+#         else:
+#             m['CPM3'] = int(m['spend2']) / int(m['impressions2']) * 1000
                 
         
         
@@ -319,9 +319,9 @@ def process_ads2(ads):
     df['max_impressions']=df['max_impressions'].astype('int64')
     
     df['impressions']=df['impressions'].astype('int64')
-    df['impressions2']=df['impressions2'].astype('int64')
+#     df['impressions2']=df['impressions2'].astype('int64')
     df['spend']=df['spend'].astype('int64')
-    df['spend2']=df['spend2'].astype('int64')
+#     df['spend2']=df['spend2'].astype('int64')
 
 
     df['country']=df['country'].astype('category')
